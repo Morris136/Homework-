@@ -1,0 +1,29 @@
+import os
+import google.generativeai as genai
+from google.generativeai.types import GenerationConfig
+
+# ✅ 替換成你自己的 API 金鑰
+GOOGLE_API_KEY = "你的_API_金鑰"
+genai.configure(api_key=GOOGLE_API_KEY)
+
+# ✅ 定義函式，支援 temperature 與 max_tokens
+def generate_answer(prompt, temperature=0.7, max_tokens=256):
+    model = genai.GenerativeModel('gemini-pro')
+
+    config = GenerationConfig(
+        temperature=temperature,
+        max_output_tokens=max_tokens
+    )
+
+    response = model.generate_content(
+        prompt,
+        generation_config=config
+    )
+
+    return response.text
+
+# ✅ 測試輸入
+if __name__ == "__main__":
+    prompt = "Explain how photosynthesis works in simple terms."
+    answer = generate_answer(prompt, temperature=0.5, max_tokens=100)
+    print("🔹 Model Answer:\n", answer)
